@@ -6,6 +6,7 @@ import PhotoAlbum from "react-photo-album";
 import Lightbox from "yet-another-react-lightbox";
 import type { PortfolioPhoto } from "@/lib/portfolio";
 import ResponsiveImage from "@/ui/common/responsive-image";
+import type { SlideImage } from "yet-another-react-lightbox";
 
 interface PortfolioGalleryProps {
   photos: PortfolioPhoto[];
@@ -49,7 +50,41 @@ const PortfolioGallery: FC<PortfolioGalleryProps> = ({ photos, className }) => {
         open={index >= 0}
         close={() => setIndex(-1)}
         index={index}
-        slides={photos.map((photo) => ({ src: photo.src, alt: photo.alt, key: photo.id }))}
+        slides={photos.map((photo) => ({
+          src: photo.src,
+          width: photo.width,
+          height: photo.height,
+          alt: photo.alt,
+          key: photo.id,
+        }))}
+        render={{
+          slide: ({ slide, rect }) => {
+            const image = slide as SlideImage;
+            const ratio = image.width && image.height ? image.width / image.height : 1;
+            const fittedHeight = Math.min(rect.height, rect.width / ratio);
+            const fittedWidth = Math.min(rect.width, rect.height * ratio);
+
+            return (
+              <div className="flex h-full w-full items-center justify-center">
+                <div
+                  className="relative"
+                  style={{
+                    width: `${fittedWidth}px`,
+                    height: `${fittedHeight}px`,
+                  }}
+                >
+                  <ResponsiveImage
+                    src={image.src}
+                    alt={image.alt ?? ""}
+                    className="h-full w-full"
+                    imgClassName="object-contain object-center"
+                    sizes="100vw"
+                  />
+                </div>
+              </div>
+            );
+          },
+        }}
       />
     </div>
   );
