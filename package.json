@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "ts": "tsc",
     "analyze": "ANALYZE=true pnpm build",
-    "test": "TSX_TSCONFIG_PATH=tsconfig.test.json node --import global-jsdom/register --import tsx --experimental-transform-types --experimental-test-module-mocks --test \"src/**/*.spec.tsx\""
+    "test": "TSX_TSCONFIG_PATH=tsconfig.test.json node --import global-jsdom/register --import tsx --experimental-transform-types --experimental-test-module-mocks --test \"src/**/*.spec.ts[x]\""
   },
   "engines": {
     "node": "24.x"

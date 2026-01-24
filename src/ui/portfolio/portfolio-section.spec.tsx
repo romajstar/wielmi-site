@@ -10,8 +10,8 @@ afterEach(() => {
 mock.module("react-photo-album", {
   defaultExport: ({ photos }: { photos: Array<{ src: string; alt: string }> }) => (
     <div data-testid="photo-album">
-      {photos.map((photo) => (
-        <div key={photo.src} role="img" aria-label={photo.alt} data-src={photo.src} />
+      {photos.map((photo, index) => (
+        <div key={`${photo.src}-${index}`} role="img" aria-label={photo.alt} data-src={photo.src} />
       ))}
     </div>
   ),
@@ -21,6 +21,10 @@ mock.module("yet-another-react-lightbox", {
   defaultExport: ({ open }: { open: boolean }) => (
     <div data-testid="lightbox" data-open={open ? "true" : "false"} />
   ),
+});
+
+mock.module("next-export-optimize-images/image", {
+  defaultExport: ({ alt }: { alt: string }) => <div role="img" aria-label={alt} />,
 });
 
 test("renders portfolio items with titles and descriptions", async () => {
