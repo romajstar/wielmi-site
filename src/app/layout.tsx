@@ -1,4 +1,6 @@
 import "./globals.css";
+import "yet-another-react-lightbox/styles.css";
+import "react-photo-album/columns.css";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import type { FC } from "react";

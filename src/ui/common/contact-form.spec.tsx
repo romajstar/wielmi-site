@@ -12,7 +12,7 @@ afterEach(() => {
 let submitSpy: ReturnType<typeof mock.fn>;
 
 beforeEach(() => {
-  submitSpy = mock.fn((data) => data);
+  submitSpy = mock.fn((data: unknown) => data);
 });
 
 mock.module("@web3forms/react", {

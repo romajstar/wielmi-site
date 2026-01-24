@@ -13,8 +13,9 @@ const navigation = [
   { id: 1, name: "Instalacje Elektryczne", href: "/instalacje-elektryczne/" },
   { id: 2, name: "Sieci Lokalne", href: "/sieci-lokalne/" },
   { id: 3, name: "Współpraca", href: "/wspolpraca/" },
-  { id: 4, name: "O Nas", href: "/o-nas/" },
-  { id: 5, name: "Kontakt", href: "/kontakt/" },
+  { id: 4, name: "Realizacje", href: "/realizacje/" },
+  { id: 5, name: "O Nas", href: "/o-nas/" },
+  { id: 6, name: "Kontakt", href: "/kontakt/" },
 ];
 
 const NavBar: FC = function () {
