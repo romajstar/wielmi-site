@@ -11,7 +11,7 @@ import MenuButton from "@/ui/common/menu-button";
 const navigation = [
   { id: 0, name: "Inteligentny Dom", href: "/inteligentny-dom/" },
   { id: 1, name: "Instalacje Elektryczne", href: "/instalacje-elektryczne/" },
-  { id: 2, name: "Sieci Lokalne", href: "/sieci-lokalne/" },
+  { id: 2, name: "Sieci LAN", href: "/sieci-lokalne/" },
   { id: 3, name: "Współpraca", href: "/wspolpraca/" },
   { id: 4, name: "Realizacje", href: "/realizacje/" },
   { id: 5, name: "O Nas", href: "/o-nas/" },
