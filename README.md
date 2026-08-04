@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Portfolio media
+
+See [Portfolio videos](docs/portfolio-videos.md) for compression, poster generation, file placement, portfolio data, verification, and external-hosting guidance.
+
 ## Getting Started
 
 First, run the development server:

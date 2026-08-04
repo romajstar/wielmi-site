@@ -2,10 +2,15 @@ import { withSentryConfig } from "@sentry/nextjs";
 import withExportImages from "next-export-optimize-images";
 import analyzer from "@next/bundle-analyzer";
 
+const basePath = process.env.BASE_PATH ?? "";
+
 const config = {
   output: "export",
   trailingSlash: true,
-  basePath: process.env.BASE_PATH ?? "",
+  basePath,
+  env: {
+    NEXT_PUBLIC_BASE_PATH: basePath,
+  },
   images: {
     deviceSizes: [440, 640, 768, 1024, 1280, 1480],
   },
