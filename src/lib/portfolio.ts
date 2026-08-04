@@ -12,6 +12,8 @@ export type PortfolioVideo = {
   id: string;
   src: string;
   poster: string;
+  posterWidth: number;
+  posterHeight: number;
   width: number;
   height: number;
   mimeType: `video/${string}`;
@@ -29,34 +31,22 @@ export type PortfolioItem = {
 
 export const portfolioItems: PortfolioItem[] = [
   {
-    id: "smart-villa-krakow",
-    title: "Willa smart w Krakowie",
+    id: "restaurant-angels-warsaw",
+    title: "Restauracja Angels w Warszawie",
     description:
-      "Kompleksowa automatyka domu jednorodzinnego z integracją oświetlenia, rolet, alarmu i audio. Projekt obejmował projekt instalacji, konfigurację scen oraz szkolenie domowników.",
+      "Realizacja instalacji dla restauracji Angels w Warszawie. Film prezentuje efekt końcowy prac i rozwiązania zastosowane w lokalu.",
     media: [
       {
-        type: "photo",
-        id: "1",
-        src: "/images/landing_id.png",
-        width: 1200,
-        height: 900,
-        alt: "Sterowanie inteligentnym domem w Krakowie",
-      },
-      {
-        type: "photo",
-        id: "2",
-        src: "/images/landing_id.png",
-        width: 1400,
-        height: 900,
-        alt: "Strefa dzienna z inteligentnym oświetleniem",
-      },
-      {
-        type: "photo",
-        id: "3",
-        src: "/images/landing_id.png",
-        width: 1200,
-        height: 900,
-        alt: "Panel sterowania inteligentnym domem",
+        type: "video",
+        id: "angels-presentation",
+        src: "/videos/portfolio/angels.mp4",
+        poster: "/images/portfolio/angels-poster.jpg",
+        posterWidth: 1272,
+        posterHeight: 1545,
+        width: 1080,
+        height: 1920,
+        mimeType: "video/mp4",
+        alt: "Prezentacja realizacji w restauracji Angels w Warszawie",
       },
     ],
   },

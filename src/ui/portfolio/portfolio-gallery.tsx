@@ -28,8 +28,8 @@ const PortfolioGallery: FC<PortfolioGalleryProps> = ({ media, className }) => {
 
   const albumItems: AlbumItem[] = media.map((mediaItem) => ({
     src: isVideo(mediaItem) ? mediaItem.poster : mediaItem.src,
-    width: mediaItem.width,
-    height: mediaItem.height,
+    width: isVideo(mediaItem) ? mediaItem.posterWidth : mediaItem.width,
+    height: isVideo(mediaItem) ? mediaItem.posterHeight : mediaItem.height,
     alt: mediaItem.alt,
     key: mediaItem.id,
     label: isVideo(mediaItem) ? `Odtwórz film: ${mediaItem.alt}` : `Powiększ zdjęcie: ${mediaItem.alt}`,

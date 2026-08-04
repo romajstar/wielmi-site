@@ -57,6 +57,8 @@ Add a video entry to the project's `media` array in `src/lib/portfolio.ts`:
   id: "project-name-video",
   src: "/videos/portfolio/project-name.mp4",
   poster: "/images/portfolio/project-name-poster.jpg",
+  posterWidth: 1280,
+  posterHeight: 720,
   width: 1920,
   height: 1080,
   mimeType: "video/mp4",
@@ -64,7 +66,7 @@ Add a video entry to the project's `media` array in `src/lib/portfolio.ts`:
 }
 ```
 
-`width` and `height` describe the video's display ratio. `alt` is the accessible description announced for the thumbnail and player. The gallery adds the configured deployment base path to local video and poster URLs; full `https://` URLs are left unchanged.
+`posterWidth` and `posterHeight` describe the cropped thumbnail ratio used in the gallery. `width` and `height` describe the actual video ratio used in the full-screen viewer. `alt` is the accessible description announced for the thumbnail and player. The gallery adds the configured deployment base path to local video and poster URLs; full `https://` URLs are left unchanged.
 
 The player uses native controls, inline playback, `preload="metadata"`, and no autoplay. The poster is displayed in the gallery so opening the portfolio page does not download every video.
 

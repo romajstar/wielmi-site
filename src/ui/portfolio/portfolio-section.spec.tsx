@@ -33,7 +33,9 @@ mock.module("react-photo-album", {
         <button
           key={`${photo.src}-${index}`}
           aria-label={photo.label}
+          data-height={photo.height}
           data-src={photo.src}
+          data-width={photo.width}
           onClick={() => onClick?.({ index })}
           type="button"
         >
@@ -117,6 +119,8 @@ test("renders video posters and opens videos with explicit playback controls", a
       id: "video-1",
       src: "/videos/portfolio/example.mp4",
       poster: "/images/portfolio/example-poster.jpg",
+      posterWidth: 1200,
+      posterHeight: 800,
       width: 1920,
       height: 1080,
       mimeType: "video/mp4",
@@ -130,6 +134,8 @@ test("renders video posters and opens videos with explicit playback controls", a
     name: "Odtwórz film: Prezentacja inteligentnego domu",
   });
   assert.equal(videoButton.getAttribute("data-src"), "/images/portfolio/example-poster.jpg");
+  assert.equal(videoButton.getAttribute("data-width"), "1200");
+  assert.equal(videoButton.getAttribute("data-height"), "800");
   assert.ok(screen.getByText("Film"));
 
   fireEvent.click(videoButton);
