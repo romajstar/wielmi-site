@@ -16,6 +16,9 @@ const navigation = [
   { id: 4, name: "Realizacje", href: "/realizacje/" },
   { id: 5, name: "O Nas", href: "/o-nas/" },
   { id: 6, name: "Kontakt", href: "/kontakt/" },
+  ...(process.env.NEXT_PUBLIC_ENABLE_TEST_ERROR_PAGE === "true"
+    ? [{ id: 7, name: "Test błędu", href: "/test-error/" }]
+    : []),
 ];
 
 const NavBar: FC = function () {

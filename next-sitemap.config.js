@@ -2,6 +2,7 @@
 module.exports = {
   siteUrl: process.env.SITE_URL || "https://example.com",
   generateRobotsTxt: true,
+  exclude: ["/test-error"],
   trailingSlash: true,
   output: "export",
 };

@@ -5,11 +5,11 @@ Marketing site for a small company (Wielmi) offering smart home installations, e
 network services in Krakow. The site highlights services, showcases trust signals, and collects contact inquiries.
 
 ## Tech Stack
-- Next.js 14 (App Router) with static export (`output: "export"`).
+- Next.js 15 (App Router) with static export (`output: "export"`).
 - React 18 + TypeScript (strict mode).
 - Tailwind CSS for styling.
 - Node.js test runner + Testing Library for UI tests.
-- Sentry for production error monitoring.
+- PostHog Cloud EU for production browser errors and always-cookieless pageviews.
 - next-sitemap and next-export-optimize-images for SEO and static image optimization.
 
 ## Project Conventions
@@ -41,11 +41,10 @@ network services in Krakow. The site highlights services, showcases trust signal
 ## Important Constraints
 - Static export only; avoid server-only features or API routes.
 - Contact form submits via Web3Forms using `NEXT_PUBLIC_FORM_ACCESS_KEY`.
-- Google Analytics loads only after cookie consent; consent banner is required.
+- PostHog is explicitly enabled at build time for production only; no browser persistence, person profiles, replay, interaction capture, or analytics consent banner.
 - SEO relies on canonical URLs using `NEXT_PUBLIC_BASE_URL` and sitemap `SITE_URL`.
 
 ## External Dependencies
 - Web3Forms (contact form submission).
-- Google Analytics via `@next/third-parties` gated by `vanilla-cookieconsent`.
-- Sentry for error tracking in production.
+- PostHog via `posthog-js` for browser errors/pageviews; source-map uploads are deferred. See `docs/posthog-cloud-setup.md` for project and CI configuration.
 - next-sitemap for sitemap/robots generation.

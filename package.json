@@ -10,19 +10,19 @@
     "lint": "eslint .",
     "ts": "tsc",
     "analyze": "ANALYZE=true pnpm build",
-    "test": "TSX_TSCONFIG_PATH=tsconfig.test.json node --import global-jsdom/register --import tsx --experimental-transform-types --experimental-test-module-mocks --test \"src/**/*.spec.ts[x]\""
+    "test": "TSX_TSCONFIG_PATH=tsconfig.test.json node --import global-jsdom/register --import tsx --experimental-transform-types --experimental-test-module-mocks --test \"src/**/*.spec.ts\" \"src/**/*.spec.tsx\""
   },
   "engines": {
     "node": "24.x"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
-    "@sentry/nextjs": "^10",
     "@web3forms/react": "^1.1.3",
     "classnames": "^2.5.1",
     "embla-carousel-react": "^8.1.6",
     "lodash": "^4.17.21",
     "next": "15.5.9",
+    "posthog-js": "^1.438.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.52.1",

@@ -2,6 +2,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+For production error monitoring and cookieless pageviews, follow the [PostHog Cloud EU setup guide](docs/posthog-cloud-setup.md). Configuration placeholders are in [.env.example](.env.example). Local development and GitHub Pages previews do not send telemetry.
+
 First, run the development server:
 
 ```bash
