@@ -63,6 +63,8 @@ After successful production verification, remove the unused `SENTRY_AUTH_TOKEN` 
 
 If events are missing, check the EU host and project token, the cookieless project setting, build-time enablement, blockers, and network response codes. A successful response should also correspond to an event in the selected EU project's feed. If hosting supplies a CSP, allow the actual EU ingestion/asset hosts required by the SDK. Avoid forwarding test payloads to third-party debugging services.
 
+HTTP `200` acknowledges the request, but cookieless processing can still discard an event afterward. Check ingestion warnings for `cookieless_missing_host` or `cookieless_missing_user_agent`. The final event filter must preserve `$host` and `$raw_user_agent` for server-side hashing; PostHog removes the raw user agent after hashing. The IP comes from the request and does not need to be added by the browser.
+
 A reverse proxy is optional and outside this migration. Direct EU ingestion can be blocked by privacy tools. PostHog's managed proxy requires DNS setup and adds Cloudflare processing; it does not guarantee EU-only edge termination.
 
 ## 6. Disable or roll back

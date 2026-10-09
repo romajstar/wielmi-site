@@ -28,7 +28,9 @@ export function redactText(value: string): string {
 }
 
 const contextKeys = new Set([
-  "token", "$config_defaults", "$lib", "$lib_version", "$browser", "$browser_version", "$os", "$os_version",
+  // Cookieless ingestion requires the host and user agent to generate its server-side hash.
+  // PostHog strips the raw user agent after hashing; removing these here can drop events after HTTP 200.
+  "token", "$host", "$raw_user_agent", "$config_defaults", "$lib", "$lib_version", "$browser", "$browser_version", "$os", "$os_version",
   "$device_type", "$viewport_height", "$viewport_width", "$screen_height", "$screen_width",
   "$exception_level", "$exception_is_synthetic", "$release_id",
 ]);
@@ -95,7 +97,7 @@ export function sanitizeEvent(event: CaptureResult | null): CaptureResult | null
     } else if (key === "$exception_list" && event.event === "$exception") {
       properties[key] = sanitizeExceptionList(value);
     } else if (contextKeys.has(key) && (typeof value === "string" || typeof value === "number" || typeof value === "boolean")) {
-      properties[key] = key === "token" || key === "$release_id" ? value
+      properties[key] = key === "token" || key === "$release_id" || key === "$raw_user_agent" ? value
         : typeof value === "string" ? redactText(value) : value;
     }
   }

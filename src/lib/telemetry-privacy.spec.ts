@@ -41,6 +41,20 @@ test("only pageviews/exceptions survive and person/form/attribution data is remo
   assert.equal(result?.$set_once, undefined);
 });
 
+test("cookieless hash inputs survive for pageviews and exceptions", () => {
+  for (const name of ["$pageview", "$exception"]) {
+    const result = sanitizeEvent(event(name, {
+      $host: "romajstar.github.io", $raw_user_agent: "Mozilla/5.0 Chrome/130.0.0.0",
+      $current_url: "https://romajstar.github.io/wielmi-site/?token=private",
+      email: "private@example.com",
+    }));
+    assert.equal(result?.properties.$host, "romajstar.github.io");
+    assert.equal(result?.properties.$raw_user_agent, "Mozilla/5.0 Chrome/130.0.0.0");
+    assert.equal(result?.properties.$current_url, "https://romajstar.github.io/wielmi-site/");
+    assert.equal(result?.properties.email, undefined);
+  }
+});
+
 test("exception messages are scrubbed and only known stack fields survive", () => {
   const chunk = "https://wielmi.pl/_next/static/chunks/123456789-ab12.js";
   const result = sanitizeEvent(event("$exception", {

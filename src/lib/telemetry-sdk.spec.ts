@@ -66,6 +66,9 @@ test("real SDK captures sanitized views and browser errors without persistence",
     assert.ok(events.every((item) => item.event === "$pageview" || item.event === "$exception"));
     assert.ok(events.every((item) => item.properties.token === "phc_synthetic_test"
       && item.properties.$cookieless_mode === true && item.properties.distinct_id === "$posthog_cookieless"));
+    assert.ok(events.every((item) => item.properties.$host === window.location.host
+      && item.properties.$raw_user_agent === window.navigator.userAgent),
+    "cookieless hash inputs must survive the final filter or ingestion can drop accepted requests");
     const serialized = JSON.stringify(events);
     assert.ok(!serialized.includes("test@example.com"));
     assert.ok(!serialized.includes("hidden"));
