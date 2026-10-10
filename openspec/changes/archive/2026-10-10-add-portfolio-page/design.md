@@ -27,5 +27,3 @@ The portfolio page is a new public route in a static-exported Next.js site. Port
 ## Migration Plan
 - Add route and data; no existing pages are affected.
 
-## Open Questions
-- Should the gallery support a lightbox or just a static grid?
