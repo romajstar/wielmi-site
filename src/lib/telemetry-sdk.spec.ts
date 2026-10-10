@@ -59,7 +59,7 @@ test("real SDK captures sanitized views and browser errors without persistence",
     Object.defineProperty(rejection, "reason", { value: rejected });
     window.dispatchEvent(rejection);
     captureError(new Error("Handled by global boundary"));
-    assert.equal(events.filter((item) => item.event === "$exception").length, 3);
+    assert.equal(events.filter((item) => item.event === "$exception").length, 4);
 
     sdk.capture("$autocapture", { email: "test@example.com" });
     window.dispatchEvent(new window.Event("pagehide"));

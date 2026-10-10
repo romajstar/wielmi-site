@@ -1,15 +1,19 @@
 import posthog from "posthog-js";
 import type { PostHogConfig } from "posthog-js";
-import { createEventFilter, telemetryEnabled } from "./telemetry-privacy";
+import { sanitizeEvent } from "./telemetry-privacy";
 
 let initialized = false;
 const capturedErrors = new WeakSet<object>();
 
+function telemetryEnabled(): boolean {
+  return process.env.NODE_ENV === "production"
+    && process.env.NEXT_PUBLIC_POSTHOG_ENABLED === "true"
+    && !!process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN?.trim()
+    && process.env.NEXT_PUBLIC_POSTHOG_HOST === "https://eu.i.posthog.com";
+}
+
 export function initializeTelemetry(): void {
-  if (initialized || typeof window === "undefined" || !telemetryEnabled(
-    process.env.NODE_ENV, process.env.NEXT_PUBLIC_POSTHOG_ENABLED,
-    process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN, process.env.NEXT_PUBLIC_POSTHOG_HOST,
-  )) return;
+  if (initialized || typeof window === "undefined" || !telemetryEnabled()) return;
 
   const config: Partial<PostHogConfig> = {
     api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
@@ -23,6 +27,7 @@ export function initializeTelemetry(): void {
     autocapture: false,
     capture_pageview: "history_change",
     capture_pageleave: true,
+    disable_scroll_properties: false,
     capture_dead_clicks: false,
     rageclick: false,
     capture_heatmaps: false,
@@ -40,7 +45,7 @@ export function initializeTelemetry(): void {
       capture_unhandled_rejections: true,
       capture_console_errors: false,
     },
-    before_send: createEventFilter(),
+    before_send: sanitizeEvent,
   };
   try {
     posthog.init(process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN!, config);

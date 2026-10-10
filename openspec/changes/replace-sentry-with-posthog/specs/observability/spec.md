@@ -18,11 +18,11 @@ The site SHALL use PostHog Cloud EU for browser telemetry only when a production
 - **THEN** normal navigation and the existing error UI remain functional
 
 ### Requirement: Browser Error Capture
-The site SHALL capture uncaught browser errors, unhandled promise rejections, and errors handled by the global error boundary as sanitized PostHog `$exception` events. It SHALL prevent duplicate capture of the same error across reporting paths and SHALL NOT collect console logs, session replay, or performance traces.
+The site SHALL capture uncaught browser errors, unhandled promise rejections, and errors handled by the global error boundary as sanitized PostHog `$exception` events. It SHALL prevent repeated explicit boundary capture of the same error object and SHALL NOT collect console logs, session replay, or performance traces.
 
 #### Scenario: Uncaught browser error or rejection
 - **WHEN** an uncaught error or unhandled rejected promise occurs on an enabled page
-- **THEN** a sanitized exception event is reported without duplicate reporting
+- **THEN** a sanitized exception event is reported
 
 #### Scenario: Error handled by the global boundary
 - **WHEN** the global boundary receives an error on an enabled page

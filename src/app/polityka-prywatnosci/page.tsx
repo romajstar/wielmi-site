@@ -53,7 +53,7 @@ const Page: FC = function () {
           <p>Dane te są zbierane bezpośrednio od użytkowników za pośrednictwem formularza kontaktowego.</p>
           <p>
             Do pomiaru odsłon i diagnostyki błędów wykorzystujemy dane techniczne: adres odwiedzanej strony bez
-            parametrów i fragmentów, czas spędzony na stronie i zdarzenie jej opuszczenia, typ przeglądarki,
+            wrażliwych parametrów i fragmentów, czas spędzony na stronie i zdarzenie jej opuszczenia, typ przeglądarki,
             system operacyjny, pomiary szybkości ładowania i responsywności strony (Web Vitals) oraz oczyszczone informacje o błędzie.
             Dane wpisane w formularzu kontaktowym nie są przekazywane do narzędzia analitycznego.
           </p>

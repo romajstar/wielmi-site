@@ -23,6 +23,17 @@ test("guarded initialization and error capture preserve the site when telemetry 
     assert.equal(capture.mock.calls.length, 0);
 
     Object.assign(process.env, { NODE_ENV: "production" });
+    for (const overrides of [
+      { NEXT_PUBLIC_POSTHOG_ENABLED: "false" },
+      { NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN: " " },
+      { NEXT_PUBLIC_POSTHOG_HOST: "https://other.example" },
+    ]) {
+      const configured = { ...process.env };
+      Object.assign(process.env, overrides);
+      initializeTelemetry();
+      assert.equal(initialize.mock.calls.length, 0);
+      process.env = configured;
+    }
     failInit = true;
     assert.doesNotThrow(initializeTelemetry);
     failInit = false;

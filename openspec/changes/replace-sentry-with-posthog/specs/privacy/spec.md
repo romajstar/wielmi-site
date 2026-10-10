@@ -13,11 +13,11 @@ The site SHALL configure PostHog with always-cookieless collection and no person
 - **THEN** the site's privacy restrictions continue to prevent persistence, replay, and events outside pageviews, pageleaves, Web Vitals, and exceptions
 
 ### Requirement: Sanitized Telemetry Payloads
-The site SHALL allow only `$pageview`, `$pageleave`, `$web_vitals`, and `$exception` application events and sanitize their final outgoing payloads. It SHALL exclude contact-form values, DOM content, request bodies/headers, person properties, sensitive exception fields, and query-derived attribution. It SHALL remove query strings and fragments from URL fields and stack-frame URLs, minimize referrer data, and redact email addresses and recognizable credentials or tokens in exception messages while preserving safe error types and stack context. Web Vitals SHALL retain only metric values and scalar metric metadata, excluding DOM entries and attribution. It SHALL allowlist the known exception and stack-frame fields rather than recursively processing arbitrary nested data.
+The site SHALL allow only `$pageview`, `$pageleave`, `$web_vitals`, and `$exception` application events. It SHALL preserve standard SDK properties, campaign attribution, session linkage, scroll measurements, and diagnostic metadata. A small outgoing filter SHALL remove known sensitive URL parameters and fragments and redact email addresses and recognizable credentials in exception strings. Collection restrictions SHALL primarily use SDK configuration rather than property allowlists.
 
 #### Scenario: Page URL contains sensitive parameters
 - **WHEN** a visitor opens a URL containing an email, token, or other query/fragment value
-- **THEN** emitted pageviews and exceptions contain no query/fragment values or derived attribution properties
+- **THEN** emitted pageviews and exceptions omit known sensitive parameters and fragments while preserving campaign attribution
 - **AND** referrer data is restricted to origin when included
 
 #### Scenario: Exception contains identifying content
