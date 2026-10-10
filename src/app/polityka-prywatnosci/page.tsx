@@ -125,6 +125,11 @@ const Page: FC = function () {
             Nie przechowujemy danych osobowych użytkowników dłużej niż jest to konieczne do realizacji celów
             przetwarzania, chyba że przepisy prawa stanowią inaczej.
           </p>
+          <p>
+            Dane techniczne zbierane w celu pomiaru odsłon i monitorowania błędów są przechowywane w PostHog Cloud EU
+            zgodnie z zasadami retencji dostawcy. PostHog gwarantuje przechowywanie tych danych przez co najmniej
+            jeden rok. Po upływie okresu retencji dane mogą zostać trwale usunięte.
+          </p>
         </section>
 
         <section className="mb-6">
