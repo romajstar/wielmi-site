@@ -54,7 +54,7 @@ const Page: FC = function () {
           <p>
             Do pomiaru odsłon i diagnostyki błędów wykorzystujemy dane techniczne: adres odwiedzanej strony bez
             parametrów i fragmentów, czas spędzony na stronie i zdarzenie jej opuszczenia, typ przeglądarki,
-            system operacyjny oraz oczyszczone informacje o błędzie.
+            system operacyjny, pomiary szybkości ładowania i responsywności strony (Web Vitals) oraz oczyszczone informacje o błędzie.
             Dane wpisane w formularzu kontaktowym nie są przekazywane do narzędzia analitycznego.
           </p>
         </section>
@@ -64,7 +64,7 @@ const Page: FC = function () {
           <p>Twoje dane osobowe są przetwarzane w następujących celach:</p>
           <ul className="list-disc list-inside ml-4">
             <li>Odpowiadanie na zapytania użytkowników przesłane za pośrednictwem formularza kontaktowego</li>
-            <li>Pomiar liczby odsłon stron oraz wykrywanie i usuwanie błędów technicznych</li>
+            <li>Pomiar liczby odsłon i wydajności stron oraz wykrywanie i usuwanie błędów technicznych</li>
           </ul>
         </section>
 

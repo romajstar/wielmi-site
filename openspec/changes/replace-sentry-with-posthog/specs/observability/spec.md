@@ -60,3 +60,10 @@ The project SHALL remove active Sentry dependencies, initialization, error captu
 #### Scenario: Browser after migration
 - **WHEN** a visitor loads the migrated site
 - **THEN** no Sentry runtime is initialized and no Sentry requests are sent
+
+### Requirement: Web Vitals collection
+The site SHALL capture sanitized `$web_vitals` metrics (LCP, INP, CLS, and FCP) without DOM attribution or browser persistence.
+
+#### Scenario: Production performance measurement
+- **WHEN** the browser reports a supported performance metric with telemetry enabled
+- **THEN** PostHog receives the numeric measurement with a sanitized page URL and scalar metric metadata

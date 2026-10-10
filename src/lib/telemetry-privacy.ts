@@ -86,7 +86,7 @@ function sanitizeExceptionList(value: unknown): ExceptionRecord[] | undefined {
 /** Sanitize the final enriched SDK payload, including top-level person updates. */
 export function sanitizeEvent(event: CaptureResult | null): CaptureResult | null {
   if (!event) return null;
-  if (event.event !== "$pageview" && event.event !== "$pageleave" && event.event !== "$exception") return null;
+  if (event.event !== "$pageview" && event.event !== "$pageleave" && event.event !== "$exception" && event.event !== "$web_vitals") return null;
   const properties: CaptureResult["properties"] = {
     $process_person_profile: false, $cookieless_mode: true, distinct_id: "$posthog_cookieless",
   };
@@ -97,6 +97,14 @@ export function sanitizeEvent(event: CaptureResult | null): CaptureResult | null
       properties[key] = redactText(value.split(/[?#]/)[0]);
     } else if (key === "$exception_list" && event.event === "$exception") {
       properties[key] = sanitizeExceptionList(value);
+    } else if (event.event === "$web_vitals" && /^\$web_vitals_(CLS|FCP|INP|LCP)_value$/.test(key)
+      && typeof value === "number" && Number.isFinite(value)) {
+      properties[key] = value;
+    } else if (event.event === "$web_vitals" && /^\$web_vitals_(CLS|FCP|INP|LCP)_event$/.test(key) && isRecord(value)) {
+      properties[key] = Object.fromEntries(Object.entries(pickFields(value,
+        ["name", "value", "delta", "rating", "id", "navigationType"]))
+        .filter(([, field]) => typeof field === "string" || (typeof field === "number" && Number.isFinite(field)))
+        .map(([field, content]) => [field, typeof content === "string" ? redactText(content) : content]));
     } else if (contextKeys.has(key) && (typeof value === "string" || typeof value === "number" || typeof value === "boolean")) {
       properties[key] = key === "token" || key === "$release_id" || key === "$raw_user_agent" ? value
         : typeof value === "string" ? redactText(value) : value;

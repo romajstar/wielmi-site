@@ -26,7 +26,7 @@ export function initializeTelemetry(): void {
     capture_dead_clicks: false,
     rageclick: false,
     capture_heatmaps: false,
-    capture_performance: false,
+    capture_performance: { web_vitals: true, web_vitals_attribution: false },
     disable_session_recording: true,
     disable_surveys: true,
     disable_conversations: true,

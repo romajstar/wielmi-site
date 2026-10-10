@@ -18,8 +18,8 @@ test("telemetry requires production, explicit enablement, a token, and the EU ho
   ]) assert.equal(telemetryEnabled(...args as [string, string, string, string | undefined]), false);
 });
 
-test("only pageviews/pageleaves/exceptions survive and person/form/attribution data is removed", () => {
-  for (const name of ["$autocapture", "$identify", "$snapshot", "$web_vitals", "form_submitted"]) {
+test("only pageviews/pageleaves/exceptions/web vitals survive and person/form/attribution data is removed", () => {
+  for (const name of ["$autocapture", "$identify", "$snapshot", "form_submitted"]) {
     assert.equal(sanitizeEvent(event(name, {})), null);
   }
   assert.equal(sanitizeEvent(null), null);
@@ -126,4 +126,17 @@ test("duplicate automatic/boundary exceptions are suppressed without silencing l
   assert.equal(filter(exception(true)), null);
   clock = 1001;
   assert.ok(filter(exception(true)));
+});
+
+test("web vitals retain metrics without DOM entries, attribution, or sensitive URLs", () => {
+  const result = sanitizeEvent(event("$web_vitals", {
+    $current_url: "https://wielmi.pl/?token=private", $web_vitals_LCP_value: 1200,
+    $web_vitals_LCP_event: { name: "LCP", value: 1200, rating: "good", id: "metric-id",
+      entries: [{ element: "private DOM" }], attribution: { url: "https://private.example" } },
+    $web_vitals_unknown_value: 123, email: "private@example.com",
+  }));
+  assert.equal(result?.properties.$web_vitals_LCP_value, 1200);
+  assert.deepEqual(result?.properties.$web_vitals_LCP_event, { name: "LCP", value: 1200, rating: "good", id: "metric-id" });
+  assert.equal(result?.properties.$current_url, "https://wielmi.pl/");
+  assert.ok(!JSON.stringify(result).includes("private"));
 });
