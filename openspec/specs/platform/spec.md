@@ -1,7 +1,7 @@
 # platform Specification
 
 ## Purpose
-TBD - created by archiving change update-nextjs-16. Update Purpose after archive.
+Define the framework, Node.js runtime, and automated test runner used to develop, build, and export the site consistently across local development and CI.
 ## Requirements
 ### Requirement: Framework Version
 The project SHALL use the latest stable Next.js 15.x as the primary framework for build and runtime.
