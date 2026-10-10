@@ -15,7 +15,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 12.9.1
           run_install: false
       - name: Install Node.js
         uses: actions/setup-node@v7
@@ -23,7 +23,7 @@ jobs:
           node-version-file: .nvmrc
           cache: "pnpm"
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
       - name: Cache build
         uses: actions/cache@v4
         with:
@@ -49,6 +49,15 @@ jobs:
           NEXT_PUBLIC_POSTHOG_ENABLED: "true"
           NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN: ${{ vars.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN }}
           NEXT_PUBLIC_POSTHOG_HOST: https://eu.i.posthog.com
+          POSTHOG_SOURCEMAPS_ENABLED: "true"
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          POSTHOG_PROJECT_ID: ${{ vars.POSTHOG_PROJECT_ID }}
+      - name: Verify source maps are excluded from deployment
+        run: |
+          if find out -type f -name '*.map' -print -quit | grep -q .; then
+            echo "Source maps remain in the deployment output."
+            exit 1
+          fi
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:

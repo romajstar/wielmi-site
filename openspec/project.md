@@ -46,5 +46,5 @@ network services in Krakow. The site highlights services, showcases trust signal
 
 ## External Dependencies
 - Web3Forms (contact form submission).
-- PostHog via `posthog-js` for browser errors/pageviews; source-map uploads are deferred. See `docs/posthog-cloud-setup.md` for project and CI configuration.
+- PostHog via `posthog-js` for browser errors/pageviews; Hostido production builds upload source maps and delete them before deployment. See `docs/posthog-cloud-setup.md` for project and CI configuration.
 - next-sitemap for sitemap/robots generation.

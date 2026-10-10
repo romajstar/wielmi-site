@@ -1,0 +1,5 @@
+allowBuilds:
+  '@posthog/cli': true
+  esbuild: true
+  sharp: true
+  core-js: false

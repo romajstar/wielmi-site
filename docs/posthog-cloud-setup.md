@@ -32,20 +32,24 @@ In **Project settings**, copy the **project token** (often beginning `phc_`).
 
 Use the public project token, not a personal API key. The browser uses `eu.i.posthog.com`; the dashboard uses `eu.posthog.com`.
 
-Source-map uploads are deferred for the initial rollout. No personal API key, numeric project ID, upload CLI, or release configuration is required. Errors still appear in Error Tracking, but stack frames refer to bundled JavaScript rather than the original TypeScript. Production browser source maps are disabled.
+The Hostido production build uploads source maps using `@posthog/nextjs-config`, following the [PostHog Next.js guide](https://posthog.com/docs/error-tracking/upload-source-maps/nextjs). Uploads use `https://eu.posthog.com`, while browser ingestion continues to use `https://eu.i.posthog.com`. Maps are deleted after upload and excluded from the deployed static export. Releases use `wielmi-site` and the GitHub commit SHA.
+
+Create a personal API key with **write access to Error Tracking** and find the numeric project ID in project settings. These are build-only values; never put the personal API key in a `NEXT_PUBLIC_` variable.
 
 ## 4. Configure GitHub Actions
 
-Open this repository's **Settings → Secrets and variables → Actions**. The Hostido build runs before the deployment environment is selected, so use **repository-level** variables for its build configuration.
+Open this repository's **Settings → Secrets and variables → Actions**. The Hostido build runs before the deployment environment is selected, so use **repository-level** variables and secrets for its build configuration. The project and both workflows use pnpm **12.9.1**. `pnpm-workspace.yaml` permits the PostHog CLI, esbuild, and sharp installation scripts; core-js scripts are disabled.
 
 Add these repository **variables**:
 
 ```text
 NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN=<public-project-token>
-NEXT_PUBLIC_POSTHOG_ENABLED=false
+POSTHOG_PROJECT_ID=<numeric-project-id>
 ```
 
-The production workflow supplies the EU ingestion host. Once the project settings, privacy disclosure, and verification are ready, change `NEXT_PUBLIC_POSTHOG_ENABLED` to `true` and rebuild/deploy `main`. Public variables are baked into the static export: changing a variable does not affect already deployed files. The GitHub Pages `develop` workflow forces enablement to `false`, regardless of repository variables.
+Add the repository **secret** `POSTHOG_API_KEY=<personal-api-key>`. The Hostido workflow enables source map uploads with `POSTHOG_SOURCEMAPS_ENABLED=true` and fails if either upload credential is missing. The GitHub Pages workflow does not enable source map uploads.
+
+Both workflows currently enable browser telemetry and supply the EU ingestion host. Public variables are baked into the static export: changing a variable does not affect already deployed files.
 
 After successful production verification, remove the unused `SENTRY_AUTH_TOKEN` GitHub secret and any local `.env.sentry-build-plugin` file. Keep the existing Sentry account/history if you need past issues.
 
@@ -58,8 +62,8 @@ After successful production verification, remove the unused `SENTRY_AUTH_TOKEN` 
 5. Trigger a synthetic uncaught exception using the browser console, for example `setTimeout(() => { throw new Error("Wielmi setup test"); }, 0)`. Also test a synthetic unhandled rejection. Verify `$exception` in the activity feed and an issue in Error Tracking. Console logging alone is intentionally not captured.
 6. To test the application error boundary, build locally with `NEXT_PUBLIC_ENABLE_TEST_ERROR_PAGE=true`, serve `out/`, and open `/test-error/`. Click **Trigger test error** and verify the fallback appears and `$exception` reaches the project. This flag also disables request compression so event payloads can be inspected in DevTools. The route is hidden by default and the production workflow does not enable it. Its error UI must remain usable even if telemetry is blocked.
 7. Inspect cookies, localStorage, and sessionStorage before/after loading, navigating, and triggering errors. PostHog must create no persistent entries. Confirm no replay or automatic click/form events appear.
-8. Confirm production assets contain no `.map` files. Original-source stack resolution is deferred until source-map uploads are added.
-9. Rebuild without enablement/token and verify pages still work and send no telemetry. Confirm GitHub Pages previews remain disabled.
+8. Confirm production assets contain no `.map` files, served JavaScript contains `//# chunkId=` comments, and a new exception resolves to original source in PostHog Error Tracking. Check the build logs for successful uploads. For a local upload test, set `POSTHOG_SOURCEMAPS_ENABLED=true`, `POSTHOG_API_KEY`, and `POSTHOG_PROJECT_ID` in ignored `.env.local` before building. Ordinary local builds leave uploads disabled and require no private credentials.
+9. Rebuild without enablement/token and verify pages still work and send no telemetry. Source map uploads remain disabled in GitHub Pages builds.
 
 If events are missing, check the EU host and project token, the cookieless project setting, build-time enablement, blockers, and network response codes. A successful response should also correspond to an event in the selected EU project's feed. If hosting supplies a CSP, allow the actual EU ingestion/asset hosts required by the SDK. Avoid forwarding test payloads to third-party debugging services.
 
