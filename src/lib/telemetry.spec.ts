@@ -45,6 +45,7 @@ test("guarded initialization and error capture preserve the site when telemetry 
     assert.equal(config.person_profiles, "never");
     assert.equal(config.disable_persistence, true);
     assert.equal(config.autocapture, false);
+    assert.equal(config.advanced_disable_flags, true);
     assert.equal(config.capture_pageleave, true);
     assert.equal(config.disable_session_recording, true);
     assert.deepEqual(config.capture_exceptions, {

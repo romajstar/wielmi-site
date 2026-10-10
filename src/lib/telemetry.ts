@@ -19,6 +19,8 @@ export function initializeTelemetry(): void {
     api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
     ui_host: "https://eu.posthog.com",
     defaults: "2026-08-30",
+    // This site uses no flags; the SDK's /flags request includes unsanitized initial person properties.
+    advanced_disable_flags: true,
     cookieless_mode: "always",
     person_profiles: "never",
     disable_persistence: true,

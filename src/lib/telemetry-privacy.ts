@@ -36,6 +36,18 @@ export function sanitizeEvent(event: CaptureResult | null): CaptureResult | null
   for (const key of ["$current_url", "$initial_current_url", "$referrer", "$initial_referrer", "$pathname", "$prev_pageview_pathname"]) {
     if (typeof properties[key] === "string") properties[key] = safeUrl(properties[key]);
   }
+  if (event.event === "$web_vitals") {
+    // SDK metric metadata contains its own copies of the original navigation URL.
+    for (const [key, value] of Object.entries(properties)) {
+      if (!key.startsWith("$web_vitals_") || !key.endsWith("_event")
+        || !value || typeof value !== "object" || Array.isArray(value)) continue;
+      const metric = { ...value } as Record<string, unknown>;
+      for (const field of ["navigationURL", "$current_url"]) {
+        if (typeof metric[field] === "string") metric[field] = safeUrl(metric[field]);
+      }
+      properties[key] = metric;
+    }
+  }
   if (event.event === "$exception" && Array.isArray(properties.$exception_list)) {
     // Error payloads are plain JSON; preserve SDK fields while redacting strings.
     properties.$exception_list = JSON.parse(JSON.stringify(properties.$exception_list,
