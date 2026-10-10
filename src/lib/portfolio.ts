@@ -21,6 +21,13 @@ export const portfolioItems: PortfolioItem[] = [
       "Kompleksowe wykonanie instalacji elektrycznej, okablowania oraz podłączeń urządzeń systemu inteligentnego domu HDL. Zakres prac obejmował również monitoring wizyjny oraz wykonanie i konfigurację sieci LAN.",
     photos: [
       {
+        id: "sienna-rozdzielnica",
+        src: "/images/realizacje/sienna/rozdzielnica.jpg",
+        width: 1200,
+        height: 1600,
+        alt: "Rozdzielnica elektryczna z modułami automatyki i okablowaniem w projekcie Sienna",
+      },
+      {
         id: "sienna-instalacja",
         src: "/images/realizacje/sienna/instalacja.jpg",
         width: 1200,
@@ -42,6 +49,13 @@ export const portfolioItems: PortfolioItem[] = [
     description:
       "Wykonanie instalacji elektrycznej, monitoringu wizyjnego oraz sieci LAN w lokalu Angel’s Karaoke & Lounge Bar w Warszawie. Zakres prac obejmował również konfigurację monitoringu i sieci LAN.",
     photos: [
+      {
+        id: "angels-rozdzielnica",
+        src: "/images/realizacje/angels/rozdzielnica.jpg",
+        width: 1200,
+        height: 1600,
+        alt: "Rozdzielnica elektryczna wykonana dla Angel’s Karaoke & Lounge Bar w Warszawie",
+      },
       {
         id: "angels-wejscie",
         src: "/images/realizacje/angels/wejscie.jpg",
