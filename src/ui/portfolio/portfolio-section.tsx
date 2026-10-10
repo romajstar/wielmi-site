@@ -13,9 +13,9 @@ const PortfolioSection: FC = function () {
           tag="h1"
         />
         <p className="max-w-3xl text-lg">
-          Poznaj wybrane realizacje, które pokazują nasze podejście do projektowania inteligentnych
-          instalacji. Każdy projekt to indywidualny plan, precyzyjne wykonanie i efekt końcowy,
-          który ułatwia codzienne życie.
+          Zobacz wybrane realizacje Wielmi — instalacje elektryczne, okablowanie systemów
+          inteligentnego domu, monitoring wizyjny i sieci LAN. Pokazujemy efekty naszych prac
+          oraz wybrane etapy wykonania instalacji.
         </p>
         <div className="mt-12 grid gap-16">
           {portfolioItems.map((item) => (

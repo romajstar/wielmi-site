@@ -15,111 +15,47 @@ export type PortfolioItem = {
 
 export const portfolioItems: PortfolioItem[] = [
   {
-    id: "smart-villa-krakow",
-    title: "Willa smart w Krakowie",
+    id: "sienna",
+    title: "Sienna — instalacja elektryczna i okablowanie smart home HDL",
     description:
-      "Kompleksowa automatyka domu jednorodzinnego z integracją oświetlenia, rolet, alarmu i audio. Projekt obejmował projekt instalacji, konfigurację scen oraz szkolenie domowników.",
+      "Kompleksowe wykonanie instalacji elektrycznej, okablowania oraz podłączeń urządzeń systemu inteligentnego domu HDL. Zakres prac obejmował również monitoring wizyjny oraz wykonanie i konfigurację sieci LAN.",
     photos: [
       {
-        id: "1",
-        src: "/images/landing_id.png",
+        id: "sienna-instalacja",
+        src: "/images/realizacje/sienna/instalacja.jpg",
         width: 1200,
-        height: 900,
-        alt: "Sterowanie inteligentnym domem w Krakowie",
+        height: 1600,
+        alt: "Oświetlenie i wnętrze lokalu Sienna na etapie prac instalacyjnych",
       },
       {
-        id: "2",
-        src: "/images/landing_id.png",
-        width: 1400,
-        height: 900,
-        alt: "Strefa dzienna z inteligentnym oświetleniem",
-      },
-      {
-        id: "3",
-        src: "/images/landing_id.png",
+        id: "sienna-oswietlenie",
+        src: "/images/realizacje/sienna/oswietlenie.jpg",
         width: 1200,
-        height: 900,
-        alt: "Panel sterowania inteligentnym domem",
+        height: 1600,
+        alt: "Żyrandol i podświetlenie dekoracyjne we wnętrzu Sienna",
       },
     ],
   },
   {
-    id: "office-network-krakow",
-    title: "Sieć biurowa dla firmy technologicznej",
+    id: "angels-warszawa",
+    title: "Angel’s Karaoke & Lounge Bar — Warszawa",
     description:
-      "Zaprojektowanie i wykonanie sieci LAN z monitoringiem i kontrolą dostępu. W ramach realizacji wykonaliśmy okablowanie strukturalne, szafę rack oraz integrację z systemem bezpieczeństwa.",
+      "Wykonanie instalacji elektrycznej, monitoringu wizyjnego oraz sieci LAN w lokalu Angel’s Karaoke & Lounge Bar w Warszawie. Zakres prac obejmował również konfigurację monitoringu i sieci LAN.",
     photos: [
       {
-        id: "1",
-        src: "/images/landing_id.png",
-        width: 1200,
-        height: 800,
-        alt: "Nowoczesna infrastruktura sieci lokalnej",
+        id: "angels-wejscie",
+        src: "/images/realizacje/angels/wejscie.jpg",
+        width: 1000,
+        height: 1280,
+        alt: "Podświetlone wejście do Angel’s Karaoke & Lounge Bar w Warszawie",
       },
       {
-        id: "2",
-        src: "/images/landing_id.png",
-        width: 1200,
-        height: 800,
-        alt: "Okablowanie strukturalne w biurze",
+        id: "angels-monitoring",
+        src: "/images/realizacje/angels/monitoring.jpg",
+        width: 1000,
+        height: 1280,
+        alt: "Kamera monitoringu wizyjnego we wnętrzu Angel’s Karaoke & Lounge Bar",
       },
-      {
-        id: "3",
-        src: "/images/landing_id.png",
-        width: 1200,
-        height: 800,
-        alt: "System bezpieczeństwa i monitoring",
-      },
-      {
-        id: "4",
-        src: "/images/landing_id.png",
-        width: 1200,
-        height: 800,
-        alt: "Szafa rack z urządzeniami sieciowymi",
-      }
-    ],
-  },
-  {
-    id: "electrical-renovation",
-    title: "Instalacja elektryczna apartamentu",
-    description:
-      "Modernizacja instalacji elektrycznej w apartamencie premium. Zakres prac obejmował nowe rozdzielnice, inteligentne sterowanie ogrzewaniem i przygotowanie pod fotowoltaikę.",
-    photos: [
-      {
-        id: "1",
-        src: "/images/landing_id.png",
-        width: 1200,
-        height: 800,
-        alt: "Nowa instalacja elektryczna w apartamencie",
-      },
-      {
-        id: "2",
-        src: "/images/landing_id.png",
-        width: 1200,
-        height: 800,
-        alt: "Rozdzielnica elektryczna po modernizacji",
-      },
-      {
-        id: "3",
-        src: "/images/landing_id.png",
-        width: 1200,
-        height: 800,
-        alt: "Sterowanie ogrzewaniem w apartamencie",
-      },
-      {
-        id: "4",
-        src: "/images/landing_id.png",
-        width: 1200,
-        height: 800,
-        alt: "Przygotowanie instalacji pod fotowoltaikę",
-      },
-      {
-        id: "5",
-        src: "/images/landing_id.png",
-        width: 1200,
-        height: 800,
-        alt: "Inteligentne oświetlenie w apartamencie",
-      }
     ],
   },
 ];
