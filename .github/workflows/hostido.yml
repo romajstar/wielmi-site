@@ -11,21 +11,21 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
-          version: 9
+          version: 12.9.1
           run_install: false
       - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: "pnpm"
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
       - name: Cache build
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             ${{ github.workspace }}/.next/cache
@@ -34,7 +34,7 @@ jobs:
             ${{ runner.os }}-build-${{ hashFiles('**/pnpm-lock.yaml') }}-
             ${{ runner.os }}-build-
       - name: Cache images
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             ${{ github.workspace }}/node_modules/.cache/next-export-optimize-images
@@ -45,11 +45,21 @@ jobs:
         run: pnpm run build
         env:
           NEXT_PUBLIC_FORM_ACCESS_KEY: ${{ vars.NEXT_PUBLIC_FORM_ACCESS_KEY }}
-          NEXT_PUBLIC_GA_ID: ${{ vars.NEXT_PUBLIC_GA_ID }}
           SITE_URL: https://wielmi.pl
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          NEXT_PUBLIC_POSTHOG_ENABLED: "true"
+          NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN: ${{ vars.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN }}
+          NEXT_PUBLIC_POSTHOG_HOST: https://eu.i.posthog.com
+          POSTHOG_SOURCEMAPS_ENABLED: "true"
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          POSTHOG_PROJECT_ID: ${{ vars.POSTHOG_PROJECT_ID }}
+      - name: Verify source maps are excluded from deployment
+        run: |
+          if find out -type f -name '*.map' -print -quit | grep -q .; then
+            echo "Source maps remain in the deployment output."
+            exit 1
+          fi
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           path: ./out
           name: build
@@ -63,7 +73,7 @@ jobs:
     needs: build
     steps:
       - name: Download build artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: build
           path: ./build

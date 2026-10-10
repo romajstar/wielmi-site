@@ -11,10 +11,14 @@ import MenuButton from "@/ui/common/menu-button";
 const navigation = [
   { id: 0, name: "Inteligentny Dom", href: "/inteligentny-dom/" },
   { id: 1, name: "Instalacje Elektryczne", href: "/instalacje-elektryczne/" },
-  { id: 2, name: "Sieci Lokalne", href: "/sieci-lokalne/" },
+  { id: 2, name: "Sieci LAN", href: "/sieci-lokalne/" },
   { id: 3, name: "Współpraca", href: "/wspolpraca/" },
-  { id: 4, name: "O Nas", href: "/o-nas/" },
-  { id: 5, name: "Kontakt", href: "/kontakt/" },
+  { id: 4, name: "Realizacje", href: "/realizacje/" },
+  { id: 5, name: "O Nas", href: "/o-nas/" },
+  { id: 6, name: "Kontakt", href: "/kontakt/" },
+  ...(process.env.NEXT_PUBLIC_ENABLE_TEST_ERROR_PAGE === "true"
+    ? [{ id: 7, name: "Test błędu", href: "/test-error/" }]
+    : []),
 ];
 
 const NavBar: FC = function () {

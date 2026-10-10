@@ -1,4 +1,6 @@
 import "./globals.css";
+import "yet-another-react-lightbox/styles.css";
+import "react-photo-album/columns.css";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import type { FC } from "react";
@@ -7,6 +9,7 @@ import Footer from "@/ui/sections/footer";
 import NavBar from "@/ui/sections/navbar";
 import GridLines from "@/ui/sections/grid-lines";
 import { siteMetadata } from "@/lib/meta";
+import RootErrorControls from "./test-error/root-error-controls";
 
 const font = Montserrat({ subsets: ["latin", "latin-ext"] });
 
@@ -20,6 +23,7 @@ const RootLayout: FC<RootLayoutProps> = function ({ children }) {
   return (
     <html lang="pl-PL" className="scroll-smooth scroll-pt-20">
       <body className={classNames(font.className, "text-left text-grey bg-[#F6FAFF] relative")}>
+        {process.env.NEXT_PUBLIC_ENABLE_TEST_ERROR_PAGE === "true" && <RootErrorControls />}
         <GridLines />
         <NavBar />
         <main className="flex flex-col justify-between pt-20">{children}</main>

@@ -7,10 +7,11 @@ interface ResponsiveImageProps {
   alt: string;
   className?: string;
   imgClassName?: string;
+  sizes?: string;
   children?: React.ReactNode;
 }
 
-const ResponsiveImage: FC<ResponsiveImageProps> = ({ className, src, alt, imgClassName, children }) => {
+const ResponsiveImage: FC<ResponsiveImageProps> = ({ className, src, alt, imgClassName, sizes = "100%", children }) => {
   return (
     <div className={classNames("relative overflow-hidden", className)}>
       <Image
@@ -18,7 +19,7 @@ const ResponsiveImage: FC<ResponsiveImageProps> = ({ className, src, alt, imgCla
         src={src}
         placeholder="blur"
         alt={alt}
-        sizes="100%"
+        sizes={sizes}
         fill
       />
       {children}

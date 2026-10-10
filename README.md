@@ -1,6 +1,12 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Portfolio media
+
+See [Portfolio videos](docs/portfolio-videos.md) for compression, poster generation, file placement, portfolio data, verification, and external-hosting guidance.
+
 ## Getting Started
+
+For production error monitoring and cookieless pageviews, follow the [PostHog Cloud EU setup guide](docs/posthog-cloud-setup.md). Configuration placeholders are in [.env.example](.env.example). Local development and GitHub Pages previews do not send telemetry.
 
 First, run the development server:
 

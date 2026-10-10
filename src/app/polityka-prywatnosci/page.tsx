@@ -51,6 +51,12 @@ const Page: FC = function () {
             <li>Numer telefonu</li>
           </ul>
           <p>Dane te są zbierane bezpośrednio od użytkowników za pośrednictwem formularza kontaktowego.</p>
+          <p>
+            Do pomiaru odsłon i diagnostyki błędów wykorzystujemy dane techniczne: adres odwiedzanej strony bez
+            wrażliwych parametrów i fragmentów, czas spędzony na stronie i zdarzenie jej opuszczenia, typ przeglądarki,
+            system operacyjny, pomiary szybkości ładowania i responsywności strony (Web Vitals) oraz oczyszczone informacje o błędzie.
+            Dane wpisane w formularzu kontaktowym nie są przekazywane do narzędzia analitycznego.
+          </p>
         </section>
 
         <section className="mb-6">
@@ -58,12 +64,19 @@ const Page: FC = function () {
           <p>Twoje dane osobowe są przetwarzane w następujących celach:</p>
           <ul className="list-disc list-inside ml-4">
             <li>Odpowiadanie na zapytania użytkowników przesłane za pośrednictwem formularza kontaktowego</li>
+            <li>Pomiar liczby odsłon i wydajności stron oraz wykrywanie i usuwanie błędów technicznych</li>
           </ul>
         </section>
 
         <section className="mb-6">
           <h2 className="text-2xl font-semibold mb-2">5. Udostępnianie danych</h2>
-          <p>Twoje dane osobowe nie są udostępniane podmiotom trzecim w celach analitycznych.</p>
+          <p>
+            Do pomiaru odsłon i monitorowania błędów korzystamy z PostHog Cloud EU, z przechowywaniem danych
+            w regionie Unii Europejskiej. PostHog otrzymuje dane techniczne opisane w tej polityce oraz metadane
+            połączenia, w tym adres IP i informacje o przeglądarce, potrzebne do obliczenia identyfikatora
+            zmieniającego się każdego dnia. Nie tworzymy profili użytkowników ani nie identyfikujemy ich
+            na podstawie danych z formularza kontaktowego.
+          </p>
         </section>
 
         <section className="mb-6">
@@ -91,14 +104,17 @@ const Page: FC = function () {
           <h2 className="text-2xl font-semibold mb-2">7. Pliki cookies i technologie śledzące</h2>
           <p>
             Strona nie wykorzystuje analitycznych plików cookies. Wykorzystujemy wyłącznie niezbędne pliki cookies
-            techniczne związane z działaniem serwisu.
+            techniczne związane z działaniem serwisu. Pomiar odsłon i błędów działa w trybie bez cookies i nie
+            zapisuje danych w localStorage ani sessionStorage. Nie nagrywamy sesji i nie zbieramy kliknięć
+            ani treści formularzy do celów analitycznych.
           </p>
         </section>
 
         <section className="mb-6">
           <h2 className="text-2xl font-semibold mb-2">8. Bezpieczeństwo danych</h2>
           <p>
-            Twoje dane osobowe są przechowywane w skrzynce e-mail. Stosujemy odpowiednie środki techniczne i
+            Dane z formularza kontaktowego są przechowywane w skrzynce e-mail, a dane techniczne w PostHog Cloud EU.
+            Stosujemy odpowiednie środki techniczne i
             organizacyjne w celu ochrony danych osobowych przed nieautoryzowanym dostępem, utratą lub zniszczeniem.
           </p>
         </section>
@@ -108,6 +124,11 @@ const Page: FC = function () {
           <p>
             Nie przechowujemy danych osobowych użytkowników dłużej niż jest to konieczne do realizacji celów
             przetwarzania, chyba że przepisy prawa stanowią inaczej.
+          </p>
+          <p>
+            Dane techniczne zbierane w celu pomiaru odsłon i monitorowania błędów są przechowywane w PostHog Cloud EU
+            zgodnie z zasadami retencji dostawcy. PostHog gwarantuje przechowywanie tych danych przez co najmniej
+            jeden rok. Po upływie okresu retencji dane mogą zostać trwale usunięte.
           </p>
         </section>
 
@@ -130,7 +151,10 @@ const Page: FC = function () {
         <section>
           <h2 className="text-2xl font-semibold mb-2">12. Usługi zewnętrzne</h2>
           <p>
-            Strona nie korzysta z narzędzi analitycznych stron trzecich.
+            Strona korzysta z PostHog Cloud EU do pomiaru odsłon i monitorowania błędów przeglądarki.
+            Usługa działa bez analitycznych cookies i trwałych identyfikatorów w przeglądarce. Informacje
+            o usłudze są dostępne na stronie{' '}
+            <a href="https://posthog.com/privacy" className="text-blue-500">PostHog</a>.
           </p>
         </section>
       </div>

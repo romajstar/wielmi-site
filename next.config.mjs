@@ -1,58 +1,34 @@
-import { withSentryConfig } from "@sentry/nextjs";
 import withExportImages from "next-export-optimize-images";
 import analyzer from "@next/bundle-analyzer";
+import { withPostHogConfig } from "@posthog/nextjs-config";
+
+const basePath = process.env.BASE_PATH ?? "";
 
 const config = {
   output: "export",
   trailingSlash: true,
+  productionBrowserSourceMaps: false,
   basePath: process.env.BASE_PATH ?? "",
-  images: {
-    deviceSizes: [440, 640, 768, 1024, 1280, 1480],
-  },
+  images: { deviceSizes: [440, 640, 768, 1024, 1280, 1480] },
 };
 
-const withBundleAnalyzer = analyzer({
-  enabled: process.env.ANALYZE === "true",
-})(config);
+const nextConfig = withExportImages(analyzer({ enabled: process.env.ANALYZE === "true" })(config));
+const uploadSourceMaps = process.env.POSTHOG_SOURCEMAPS_ENABLED === "true";
 
-const withSentry = withSentryConfig(withBundleAnalyzer, {
-  // For all available options, see:
-  // https://www.npmjs.com/package/@sentry/webpack-plugin#options
+if (uploadSourceMaps && (!process.env.POSTHOG_API_KEY || !process.env.POSTHOG_PROJECT_ID)) {
+  throw new Error("PostHog source map uploads require POSTHOG_API_KEY and POSTHOG_PROJECT_ID.");
+}
 
-  org: "mastyka-rc",
-
-  project: "javascript-nextjs",
-
-  // Only print logs for uploading source maps in CI
-  silent: !process.env.CI,
-
-  // For all available options, see:
-  // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
-
-  // Upload a larger set of source maps for prettier stack traces (increases build time)
-  widenClientFileUpload: true,
-
-  // Uncomment to route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
-  // This can increase your server load as well as your hosting bill.
-  // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
-  // side errors will fail.
-  // tunnelRoute: "/monitoring",
-
-  webpack: {
-    // Enables automatic instrumentation of Vercel Cron Monitors. (Does not yet work with App Router route handlers.)
-    // See the following for more information:
-    // https://docs.sentry.io/product/crons/
-    // https://vercel.com/docs/cron-jobs
-    automaticVercelMonitors: true,
-
-    // Tree-shaking options for reducing bundle size
-    treeshake: {
-      // Automatically tree-shake Sentry logger statements to reduce bundle size
-      removeDebugLogging: true,
-    },
-  },
-});
-
-const nextConfig = withExportImages(withSentry);
-
-export default nextConfig;
+export default uploadSourceMaps
+  ? withPostHogConfig(nextConfig, {
+      personalApiKey: process.env.POSTHOG_API_KEY,
+      projectId: process.env.POSTHOG_PROJECT_ID,
+      host: "https://eu.posthog.com",
+      sourcemaps: {
+        enabled: true,
+        releaseName: "wielmi-site",
+        releaseVersion: process.env.GITHUB_SHA,
+        deleteAfterUpload: true,
+      },
+    })
+  : nextConfig;
