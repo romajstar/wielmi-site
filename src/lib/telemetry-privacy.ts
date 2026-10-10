@@ -33,6 +33,7 @@ const contextKeys = new Set([
   "token", "$host", "$raw_user_agent", "$config_defaults", "$lib", "$lib_version", "$browser", "$browser_version", "$os", "$os_version",
   "$device_type", "$viewport_height", "$viewport_width", "$screen_height", "$screen_width",
   "$exception_level", "$exception_is_synthetic", "$release_id",
+  "$pageview_id", "$prev_pageview_id", "$prev_pageview_duration",
 ]);
 type ExceptionRecord = Record<string, unknown>;
 
@@ -85,14 +86,14 @@ function sanitizeExceptionList(value: unknown): ExceptionRecord[] | undefined {
 /** Sanitize the final enriched SDK payload, including top-level person updates. */
 export function sanitizeEvent(event: CaptureResult | null): CaptureResult | null {
   if (!event) return null;
-  if (event.event !== "$pageview" && event.event !== "$exception") return null;
+  if (event.event !== "$pageview" && event.event !== "$pageleave" && event.event !== "$exception") return null;
   const properties: CaptureResult["properties"] = {
     $process_person_profile: false, $cookieless_mode: true, distinct_id: "$posthog_cookieless",
   };
   for (const [key, value] of Object.entries(event.properties)) {
     if (key === "$current_url" || key === "$referrer") {
       if (typeof value === "string") properties[key] = safeUrl(value, key === "$referrer");
-    } else if (key === "$pathname" && typeof value === "string") {
+    } else if ((key === "$pathname" || key === "$prev_pageview_pathname") && typeof value === "string") {
       properties[key] = redactText(value.split(/[?#]/)[0]);
     } else if (key === "$exception_list" && event.event === "$exception") {
       properties[key] = sanitizeExceptionList(value);
@@ -115,7 +116,7 @@ export function createEventFilter(now: () => number = Date.now) {
       const path = sanitized.properties.$current_url;
       if (typeof path !== "string" || path === lastPath) return null;
       lastPath = path;
-    } else {
+    } else if (sanitized.event === "$exception") {
       const list = sanitized.properties.$exception_list;
       const fingerprint = JSON.stringify(Array.isArray(list) ? list.map(({ type, value, stacktrace }) => ({ type, value, stacktrace })) : list);
       const timestamp = now();

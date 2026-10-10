@@ -62,8 +62,14 @@ test("real SDK captures sanitized views and browser errors without persistence",
     assert.equal(events.filter((item) => item.event === "$exception").length, 3);
 
     sdk.capture("$autocapture", { email: "test@example.com" });
-    sdk.capture("$pageleave");
-    assert.ok(events.every((item) => item.event === "$pageview" || item.event === "$exception"));
+    window.dispatchEvent(new window.Event("pagehide"));
+    const leaves = events.filter((item) => item.event === "$pageleave");
+    assert.equal(leaves.length, 1, "leaving the site emits a pageleave");
+    const lastView = events.filter((item) => item.event === "$pageview").at(-1)!;
+    assert.ok(lastView.properties.$pageview_id);
+    assert.equal(leaves[0].properties.$prev_pageview_id, lastView.properties.$pageview_id);
+    assert.equal(typeof leaves[0].properties.$prev_pageview_duration, "number");
+    assert.ok(events.every((item) => ["$pageview", "$pageleave", "$exception"].includes(item.event)));
     assert.ok(events.every((item) => item.properties.token === "phc_synthetic_test"
       && item.properties.$cookieless_mode === true && item.properties.distinct_id === "$posthog_cookieless"));
     assert.ok(events.every((item) => item.properties.$host === window.location.host
@@ -79,7 +85,7 @@ test("real SDK captures sanitized views and browser errors without persistence",
     await sdk.shutdown();
     assert.ok(requests.every((url) => url.startsWith("https://eu.i.posthog.com")));
   } finally {
-    sdk.set_config({ capture_exceptions: false, capture_pageview: false });
+    sdk.set_config({ capture_exceptions: false, capture_pageview: false, capture_pageleave: false });
     await sdk.shutdown();
     removeListener();
     mock.restoreAll();

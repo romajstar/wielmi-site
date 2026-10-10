@@ -18,8 +18,8 @@ test("telemetry requires production, explicit enablement, a token, and the EU ho
   ]) assert.equal(telemetryEnabled(...args as [string, string, string, string | undefined]), false);
 });
 
-test("only pageviews/exceptions survive and person/form/attribution data is removed", () => {
-  for (const name of ["$autocapture", "$pageleave", "$identify", "$snapshot", "$web_vitals", "form_submitted"]) {
+test("only pageviews/pageleaves/exceptions survive and person/form/attribution data is removed", () => {
+  for (const name of ["$autocapture", "$identify", "$snapshot", "$web_vitals", "form_submitted"]) {
     assert.equal(sanitizeEvent(event(name, {})), null);
   }
   assert.equal(sanitizeEvent(null), null);
@@ -42,7 +42,7 @@ test("only pageviews/exceptions survive and person/form/attribution data is remo
 });
 
 test("cookieless hash inputs survive for pageviews and exceptions", () => {
-  for (const name of ["$pageview", "$exception"]) {
+  for (const name of ["$pageview", "$pageleave", "$exception"]) {
     const result = sanitizeEvent(event(name, {
       $host: "romajstar.github.io", $raw_user_agent: "Mozilla/5.0 Chrome/130.0.0.0",
       $current_url: "https://romajstar.github.io/wielmi-site/?token=private",
@@ -52,6 +52,25 @@ test("cookieless hash inputs survive for pageviews and exceptions", () => {
     assert.equal(result?.properties.$raw_user_agent, "Mozilla/5.0 Chrome/130.0.0.0");
     assert.equal(result?.properties.$current_url, "https://romajstar.github.io/wielmi-site/");
     assert.equal(result?.properties.email, undefined);
+  }
+});
+
+test("pageleaves retain timing and view linkage without exception deduplication", () => {
+  const filter = createEventFilter();
+  const leave = event("$pageleave", {
+    $current_url: "https://wielmi.pl/kontakt/?token=hidden#secret",
+    $prev_pageview_pathname: "/kontakt/?token=hidden#secret",
+    $pageview_id: "view-id", $prev_pageview_id: "view-id", $prev_pageview_duration: 12.5,
+    email: "private@example.com", $prev_pageview_max_scroll: 123,
+  });
+  for (let i = 0; i < 2; i++) {
+    const result = filter(leave);
+    assert.equal(result?.properties.$prev_pageview_duration, 12.5);
+    assert.equal(result?.properties.$prev_pageview_id, "view-id");
+    assert.equal(result?.properties.$current_url, "https://wielmi.pl/kontakt/");
+    assert.equal(result?.properties.$prev_pageview_pathname, "/kontakt/");
+    assert.equal(result?.properties.email, undefined);
+    assert.equal(result?.properties.$prev_pageview_max_scroll, undefined);
   }
 });
 

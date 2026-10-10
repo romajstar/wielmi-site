@@ -1,6 +1,6 @@
 # Set up PostHog Cloud EU for Wielmi
 
-This site sends only pageviews and browser exceptions. It uses always-cookieless collection, no person profiles, no session replay, and no interaction capture. Collection remains disabled until production configuration is supplied. Documentation reviewed on 2026-10-08; dashboard labels can change.
+This site sends only pageviews, pageleaves, and browser exceptions. It uses always-cookieless collection, no person profiles, no session replay, and no interaction capture. Collection remains disabled until production configuration is supplied. Documentation reviewed on 2026-10-08; dashboard labels can change.
 
 ## 1. Register an EU account
 
@@ -52,9 +52,9 @@ After successful production verification, remove the unused `SENTRY_AUTH_TOKEN` 
 ## 5. Verify the connection
 
 1. Start with a controlled production build, since `pnpm dev` deliberately sends no telemetry. Copy the public values from `.env.example` into ignored `.env.local`, set enablement to `true` for this test, then run `pnpm build` and serve `out/` using a static file server. Do not use `next start` for a static export.
-2. Open browser developer tools and inspect requests to `eu.i.posthog.com`. The event payloads must contain only `$pageview` or `$exception`, with query strings/fragments removed and sensitive fields absent. Remote configuration and SDK asset requests are normal; they are not additional tracked event types.
+2. Open browser developer tools and inspect requests to `eu.i.posthog.com`. The event payloads must contain only `$pageview`, `$pageleave`, or `$exception`, with query strings/fragments removed and sensitive fields absent. Remote configuration and SDK asset requests are normal; they are not additional tracked event types.
 3. Load a page, navigate to another page, and use back/forward. Expect one pageview per displayed pathname. Rerenders and query/hash-only changes must not add pageviews.
-4. In the EU project's activity feed, filter for `$pageview`. Confirm the sanitized page URL is present. Some Web Analytics dashboard metrics require disabled events, so an empty engagement metric does not indicate a broken connection.
+4. In the EU project's activity feed, filter for `$pageview`. Confirm the sanitized page URL is present. Leave the site and confirm `$pageleave` with pageview linkage and duration metadata. Bounce rate remains limited without interaction autocapture.
 5. Trigger a synthetic uncaught exception using the browser console, for example `setTimeout(() => { throw new Error("Wielmi setup test"); }, 0)`. Also test a synthetic unhandled rejection. Verify `$exception` in the activity feed and an issue in Error Tracking. Console logging alone is intentionally not captured.
 6. To test the application error boundary, build locally with `NEXT_PUBLIC_ENABLE_TEST_ERROR_PAGE=true`, serve `out/`, and open `/test-error/`. Click **Trigger test error** and verify the fallback appears and `$exception` reaches the project. This flag also disables request compression so event payloads can be inspected in DevTools. The route is hidden by default and the production workflow does not enable it. Its error UI must remain usable even if telemetry is blocked.
 7. Inspect cookies, localStorage, and sessionStorage before/after loading, navigating, and triggering errors. PostHog must create no persistent entries. Confirm no replay or automatic click/form events appear.

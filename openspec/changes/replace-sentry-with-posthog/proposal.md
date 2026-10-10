@@ -4,7 +4,7 @@ Replace Sentry with PostHog Cloud EU to monitor browser errors and measure pagev
 ## What Changes
 - Remove the Sentry dependency, Next.js build wrapper, client/server/edge instrumentation, and CI configuration.
 - Add browser-only PostHog error tracking and pageview collection for the production site, compatible with static export.
-- Configure always-cookieless mode, no person profiles, no session replay, and no automatic interaction capture. Limit application events to `$exception` and `$pageview`.
+- Configure always-cookieless mode, no person profiles, no session replay, and no automatic interaction capture. Limit application events to `$exception`, `$pageview`, and `$pageleave`.
 - Capture initial loads and client-side page navigation once; capture unhandled browser errors, rejected promises, and errors handled by the existing global error boundary.
 - Sanitize telemetry before transmission, excluding contact-form data, sensitive URL parameters, and identifying exception content.
 - Defer source-map uploads for the initial rollout; disable production browser source maps and accept bundled JavaScript stack frames to simplify setup.

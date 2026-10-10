@@ -10,10 +10,10 @@ The site SHALL configure PostHog with always-cookieless collection and no person
 
 #### Scenario: Remote settings enable extra features
 - **WHEN** PostHog returns project settings that would enable additional collection
-- **THEN** the site's privacy restrictions continue to prevent persistence, replay, and events outside pageviews and exceptions
+- **THEN** the site's privacy restrictions continue to prevent persistence, replay, and events outside pageviews, pageleaves, and exceptions
 
 ### Requirement: Sanitized Telemetry Payloads
-The site SHALL allow only `$pageview` and `$exception` application events and sanitize their final outgoing payloads. It SHALL exclude contact-form values, DOM content, request bodies/headers, person properties, sensitive exception fields, and query-derived attribution. It SHALL remove query strings and fragments from URL fields and stack-frame URLs, minimize referrer data, and redact email addresses and recognizable credentials or tokens in exception messages while preserving safe error types and stack context. It SHALL allowlist the known exception and stack-frame fields rather than recursively processing arbitrary nested data.
+The site SHALL allow only `$pageview`, `$pageleave`, and `$exception` application events and sanitize their final outgoing payloads. It SHALL exclude contact-form values, DOM content, request bodies/headers, person properties, sensitive exception fields, and query-derived attribution. It SHALL remove query strings and fragments from URL fields and stack-frame URLs, minimize referrer data, and redact email addresses and recognizable credentials or tokens in exception messages while preserving safe error types and stack context. It SHALL allowlist the known exception and stack-frame fields rather than recursively processing arbitrary nested data.
 
 #### Scenario: Page URL contains sensitive parameters
 - **WHEN** a visitor opens a URL containing an email, token, or other query/fragment value
@@ -26,7 +26,7 @@ The site SHALL allow only `$pageview` and `$exception` application events and sa
 - **AND** safe error type and stack context remain available
 
 #### Scenario: Out-of-scope event is generated
-- **WHEN** the SDK attempts to send an interaction, conversion, pageleave, or other application event outside the allowed types
+- **WHEN** the SDK attempts to send an interaction, conversion, or other application event outside the allowed types
 - **THEN** the outgoing event filter discards it
 
 ### Requirement: Accurate Privacy Disclosure

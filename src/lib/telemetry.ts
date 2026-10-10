@@ -18,11 +18,11 @@ export function initializeTelemetry(): void {
     cookieless_mode: "always",
     person_profiles: "never",
     disable_persistence: true,
-    // Keep local test requests readable in DevTools while diagnosing ingestion.
-    disable_compression: process.env.NEXT_PUBLIC_ENABLE_TEST_ERROR_PAGE === "true",
+    // Keep compression enabled: uncompressed unload beacons are rejected by /i/v0/e/.
+    disable_compression: false,
     autocapture: false,
     capture_pageview: "history_change",
-    capture_pageleave: false,
+    capture_pageleave: true,
     capture_dead_clicks: false,
     rageclick: false,
     capture_heatmaps: false,

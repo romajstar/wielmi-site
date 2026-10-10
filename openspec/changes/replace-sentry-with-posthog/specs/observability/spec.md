@@ -30,7 +30,7 @@ The site SHALL capture uncaught browser errors, unhandled promise rejections, an
 - **AND** the existing error UI is displayed
 
 ### Requirement: Pageview Collection
-The site SHALL report exactly one `$pageview` event on an initial page load and each client-side pathname change, including back/forward navigation. It SHALL NOT report additional pageviews for rerenders, query-only changes, or hash-only changes, or collect interaction/conversion/pageleave events.
+The site SHALL report exactly one `$pageview` event on an initial page load and each client-side pathname change, including back/forward navigation. It SHALL NOT report additional pageviews for rerenders, query-only changes, or hash-only changes, or collect interaction/conversion events. It SHALL capture `$pageleave` when leaving the site and retain pageview linkage and duration metadata without browser persistence.
 
 #### Scenario: Initial load and route navigation
 - **WHEN** a visitor loads a configured page and navigates to another pathname or uses browser back/forward to change pathname
