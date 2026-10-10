@@ -26,8 +26,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+        uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
         name: Install pnpm
         with:
           version: 12.9.1
@@ -38,11 +38,11 @@ jobs:
           node-version-file: .nvmrc
           cache: "pnpm"
       - name: Setup Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Cache build
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             ${{ github.workspace }}/.next/cache
@@ -51,7 +51,7 @@ jobs:
             ${{ runner.os }}-build-${{ hashFiles('**/pnpm-lock.yaml') }}-
             ${{ runner.os }}-build-
       - name: Cache images
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             ${{ github.workspace }}/node_modules/.cache/next-export-optimize-images
@@ -68,7 +68,7 @@ jobs:
           NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN: ${{ vars.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN }}
           NEXT_PUBLIC_POSTHOG_HOST: https://eu.i.posthog.com
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: ./out
 
@@ -82,4 +82,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

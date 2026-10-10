@@ -11,9 +11,9 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
           version: 12.9.1
           run_install: false
@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Cache build
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             ${{ github.workspace }}/.next/cache
@@ -34,7 +34,7 @@ jobs:
             ${{ runner.os }}-build-${{ hashFiles('**/pnpm-lock.yaml') }}-
             ${{ runner.os }}-build-
       - name: Cache images
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             ${{ github.workspace }}/node_modules/.cache/next-export-optimize-images
@@ -59,7 +59,7 @@ jobs:
             exit 1
           fi
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           path: ./out
           name: build
@@ -73,7 +73,7 @@ jobs:
     needs: build
     steps:
       - name: Download build artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: build
           path: ./build
