@@ -1,4 +1,5 @@
 export type PortfolioPhoto = {
+  type: "photo";
   id: string;
   src: string;
   width: number;
@@ -6,11 +7,26 @@ export type PortfolioPhoto = {
   alt: string;
 };
 
+export type PortfolioVideo = {
+  type: "video";
+  id: string;
+  src: string;
+  poster: string;
+  posterWidth: number;
+  posterHeight: number;
+  width: number;
+  height: number;
+  mimeType: `video/${string}`;
+  alt: string;
+};
+
+export type PortfolioMedia = PortfolioPhoto | PortfolioVideo;
+
 export type PortfolioItem = {
   id: string;
   title: string;
   description: string;
-  photos: PortfolioPhoto[];
+  media: PortfolioMedia[];
 };
 
 export const portfolioItems: PortfolioItem[] = [

@@ -2,6 +2,8 @@ import withExportImages from "next-export-optimize-images";
 import analyzer from "@next/bundle-analyzer";
 import { withPostHogConfig } from "@posthog/nextjs-config";
 
+const basePath = process.env.BASE_PATH ?? "";
+
 const config = {
   output: "export",
   trailingSlash: true,

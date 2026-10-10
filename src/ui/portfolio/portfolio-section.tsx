@@ -31,7 +31,7 @@ const PortfolioSection: FC = function () {
                   <p className="mt-4 text-lg text-grey/90">{item.description}</p>
                 </div>
               </div>
-              <PortfolioGallery photos={item.photos} />
+              <PortfolioGallery media={item.media} />
             </article>
           ))}
         </div>
